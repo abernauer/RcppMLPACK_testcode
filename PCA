@@ -8,9 +8,15 @@
 #include <mlpack/methods/pca/decomposition_policies/randomized_svd_method.hpp>
 #include <mlpack/methods/pca/decomposition_policies/randomized_block_krylov_method.hpp>
 
+using namespace mlpack;
+using namespace mlpack::pca;
+using namespace mlpack::util;
+using namespace std;
+
 // Document program.
 PROGRAM_INFO("Principal Components Analysis", "This Program performs principal "
-     "components analysis on the given dataset. It will transform the data  "
+     "components analysis on the given dataset using the exact, randomized, "
+     "randomized block Krylov, or QUIC SVD method. It will transform the data  "
      "onto its principal components, optionally performing dimensionality  "
      "reduction by ignoring the principal components with the smallest "
      "eigenvalues."
@@ -22,6 +28,11 @@ PROGRAM_INFO("Principal Components Analysis", "This Program performs principal "
      PRINT_PARAM_STRING("var_to_retain") + " parameter. If desired, the "
      "dataset can be scaled before running PCA with the " +
      PRINT_PARAM_STRING("scale") + " parameter."
+     "\n\n"
+     "Multiple different decomposition can be used. The method to"
+     "use can be specificied with the" +
+     PRINT_PARAM_STRING("decomposition_method") + " parameter and it may take "
+     "the values 'exact', 'randomized', or 'quic'."
      "\n\n"
      "For example, to reduce the dimensionality of the matrix " +
      PRINT_DATASET("data") + " to 5 dimensions using randomized SVD for the "
@@ -69,7 +80,7 @@ else
 {
  varRetained = p.Apply(dataset, newDimension);
 }
-Log::Infor << (varRetained * 100 ) << "% of variance retained (" <<
+Log::Info << (varRetained * 100 ) << "% of variance retained (" <<
      dataset.n_rows << " dimensions)." << endl;
 }
  
@@ -84,7 +95,7 @@ static void mlpackMain()
  // Check decomposition method validity.
  RequireParamInSet<string>("decomposition_method", { "exact", "randomized",
      "randomized-block-krylov", "quic"}, true,
-     "unkown decomposition method");
+     "unknown decomposition method");
 
 // Find out what dimension we want.
 RequireParamValue<int>("new_dimensionality", [](int x) { return x >= 0; },
