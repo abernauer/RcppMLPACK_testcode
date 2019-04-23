@@ -19,20 +19,50 @@ using namespace Rcpp;
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::exports]]
-Rcpp::List PCA(const string decomposition_method = "exact",
-	       arma::matrix& MatX,
-	       arma::matrix& MatY,
-	       const int new_dimensionality = 0,
-	       const bool scale = false,
-	       const double var_to_retain = 0){
-  MatX = MatX.t();
+Rcpp::List PCA(input, copy_all_input=false, scale=false, var_to_retain=none, verbose=false){
+ResetTimers();
+EnableTimers();
+DisableBacktrace();
+DisableVerbose();
+CLI.RestoreSettings("Principal Components Analysis");
+if (copy_all_inputs == true){
+CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs)
 
-  
-  mlpack::pca::PCA<>.Apply(const arma::mat & MatX,
-			   arma::mat & MatY.t(),
-			   arma::vec & eigVal,
-			   arma::mat & eigVec
-			   );
-  return List::Create output(Named("decomposition_method") = decomposition_method,
-			     Named("transformed_matrix") = MatY.t());
+  input_tuple=to_matrix(inputs, dtype=double, copy=CLI<>.HasParam('copy_all_inputs'))
+input_mat=//arma(input_tuple[0],input_tuple[1]
+  SetParam[arma.Mat[double]](<const string> 'input', dereference(input_mat))
+  CLI.SetPassed(<const string>'input')
+  del input_mat
+}
+
+// detect if the parameter was passed; set if so.
+if (decomposition_method != false) {
+SetParam[int](<const string>'new_dimensionality', new_dimensionality)
+CLI.SetPassed(<const string>'new_dimensionality')
+}
+
+if (scale != false){
+SetParam[bool](<const string>'scale', scale)
+CLI.SetPassed(<const string> 'scale')
+}
+
+if (var_to_retain != none) {
+SetParam[int](<const string>'var_to_retaint', var_to_retain)
+CLI.SetPassed(<const string> 'var_to_retain')
+}
+
+if (verbose != false){
+SetParam[bool](<const string>'verbose', verbose)
+CLI.SetParam(<const string>'verbose')
+EnableVerbose()
+}
+
+//Mark all out options as passed
+CLI.SetPassed(<const string>'verbose')
+
+mlpack Main()
+//result =
+
+  CLI.ClearSettings()
+  return result;
 }
