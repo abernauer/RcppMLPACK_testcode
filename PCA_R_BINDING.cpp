@@ -26,13 +26,13 @@ DisableBacktrace();
 DisableVerbose();
 CLI.RestoreSettings("Principal Components Analysis");
 if (copy_all_inputs == true){
-CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs)
+CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs);
 
-  input_tuple=to_matrix(inputs, dtype=double, copy=CLI<>.HasParam('copy_all_inputs'))
-input_mat=//arma(input_tuple[0],input_tuple[1]
-  SetParam[arma.Mat[double]](<const string> 'input', dereference(input_mat))
-  CLI.SetPassed(<const string>'input')
-  del input_mat
+input_tuple=to_matrix(inputs, dtype=double, copy=CLI.HasParam('copy_all_inputs'));
+input_mat=//arma(input_tuple[0],input_tuple[1];
+  SetParam[arma.Mat[double]](<const string> 'input', dereference(input_mat));
+  CLI.SetPassed(<const string>'input');
+del input_mat;
 }
 
 // detect if the parameter was passed; set if so.
@@ -42,27 +42,27 @@ CLI.SetPassed(<const string>'new_dimensionality')
 }
 
 if (scale != false){
-SetParam[bool](<const string>'scale', scale)
-CLI.SetPassed(<const string> 'scale')
+SetParam[bool](<const string>'scale', scale);
+CLI.SetPassed(<const string> 'scale');
 }
 
 if (var_to_retain != none) {
-SetParam[int](<const string>'var_to_retaint', var_to_retain)
-CLI.SetPassed(<const string> 'var_to_retain')
+SetParam[int](<const string>'var_to_retaint', var_to_retain);
+CLI.SetPassed(<const string> 'var_to_retain');
 }
 
 if (verbose != false){
-SetParam[bool](<const string>'verbose', verbose)
-CLI.SetParam(<const string>'verbose')
-EnableVerbose()
+SetParam[bool](<const string>'verbose', verbose);
+CLI.SetParam(<const string>'verbose');
+EnableVerbose();
 }
 
 //Mark all out options as passed
-CLI.SetPassed(<const string>'verbose')
+CLI.SetPassed(<const string>'verbose');
 
-mlpack Main()
+mlpack Main();
 //result =
 
-  CLI.ClearSettings()
+CLI.ClearSettings();
   return result;
 }
