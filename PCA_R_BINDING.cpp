@@ -72,15 +72,16 @@ EnableVerbose();
 //Mark all out options as passed
 CLI.SetPassed(<const string>'verbose');
 
-mlpack Main();
+mlpackMain();
 
 
 
 CLI.ClearSettings();
 
 //iniatilize results list as R idiom for python dict with name value pairs schematic
-//List::create is an implicit call to Rcpp::wrap() which returns an R object or coverts from C++ to R types
-// extensable to third party types
+//List::create is an implicit call to Rcpp::wrap() which returns an R object or converts from C++ to R types
+//extensible to third party types
+//included Rccp::as() might be over kill here.
   return result = List::create(Named('output') = Rcpp::as < arma mat >(CLI.GetParam[arma.Mat[double]], 'output'));
 }
 // ***R
