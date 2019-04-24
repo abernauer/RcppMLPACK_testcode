@@ -20,7 +20,7 @@ using namespace Rcpp;
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::exports]]
-Rcpp::List PCA(input, decompisition_method = 'exact', const int new_dimensionality = 0, copy_all_input=false, scale=false, var_to_retain=none, verbose=false){
+Rcpp::List PCA(input, string decompisition_method = 'exact', const int new_dimensionality = 0, bool copy_all_input=false, bool scale=false, var_to_retain=none, verbose = false){
 // don't forget to declare argument types in line above
 ResetTimers();
 EnableTimers();
@@ -41,7 +41,7 @@ del input_mat;
 // detect if the parameter was passed; set if so.
 if (decomposition_method != none) {
 SetParam[string](<const string>'decomposition_method', decomposition_method.encode("UTF-8"));
-CLI.SetPassed(<const string>'new_dimensionality');
+CLI.SetPassed(<const string>'decomposition_method');
 }
 
 // detect if the parameter was passed; set if so.
