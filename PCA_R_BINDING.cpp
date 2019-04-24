@@ -82,7 +82,8 @@ CLI.ClearSettings();
 //List::create is an implicit call to Rcpp::wrap() which returns an R object or converts from C++ to R types
 //extensible to third party types
 //included Rccp::as() might be over kill here.
-  return result = List::create(Named('output') = Rcpp::as < arma mat >(CLI.GetParam[arma.Mat[double]], 'output'));
+ 
+  return result = List::create(Named('output') = Rcpp::as < arma mat& >(CLI.GetParam[arma.Mat[double]], 'output'));
 }
 // ***R
 //
