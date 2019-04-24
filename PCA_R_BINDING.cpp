@@ -83,7 +83,7 @@ CLI.ClearSettings();
 //extensible to third party types
 //included Rccp::as() might be over kill here.
  
-  return result = List::create(Named('output') = Rcpp::as < arma mat& >(CLI.GetParam[arma.Mat[double]], 'output'));
+return result = List::create(Named('output') = Rcpp::as<arma::mat&>(CLI.GetParam[arma.Mat[double]], 'output'));
 }
 // ***R
 //
