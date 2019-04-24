@@ -20,7 +20,7 @@ using namespace Rcpp;
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::exports]]
-Rcpp::List PCA(input, string decomposition_method = 'exact', const int new_dimensionality = 0, bool copy_all_input=false, bool scale=false, var_to_retain=none, verbose = false){
+Rcpp::List PCA(input, string decomposition_method = 'exact', const int new_dimensionality = 0, bool copy_all_input = false, bool scale = false, var_to_retain = none, verbose = false){
 // don't forget to declare argument types in line above
 ResetTimers();
 EnableTimers();
@@ -31,8 +31,8 @@ if (copy_all_inputs == true){
 CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs);
 
 // alternatively Rccp::as < arma::mat >(Rmat); or other R object name
-input_tuple=to_matrix(inputs, dtype=double, copy=CLI.HasParam('copy_all_inputs'));
-input_mat=//arma(input_tuple[0],input_tuple[1];
+input_tuple = to_matrix(inputs, dtype=double, copy=CLI.HasParam('copy_all_inputs'));
+input_mat = //arma(input_tuple[0],input_tuple[1]);
   SetParam[arma.Mat[double]](<const string> 'input', dereference(input_mat));
   CLI.SetPassed(<const string>'input');
 del input_mat;
@@ -74,11 +74,14 @@ CLI.SetPassed(<const string>'verbose');
 
 mlpack Main();
 
-result = Rcpp::Wrap(List::create(Named('output') = Rcpp::as < arma mat >(CLI.GetParam[arma.Mat[double]], 'output'));
 
 
 CLI.ClearSettings();
-  return result;
+
+//iniatilize results list as R idiom for python dict with name value pairs schematic
+//List::create is an implicit call to Rcpp::wrap() which returns an R object or coverts from C++ to R types
+// extensable to third party types
+  return result = List::create(Named('output') = Rcpp::as < arma mat >(CLI.GetParam[arma.Mat[double]], 'output'));
 }
 // ***R
 //
