@@ -20,15 +20,18 @@
 //'@param var to retain a double Amount of variance to retain falling between 0 and 1 defaults to 0
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
-string decomposition_method;
-const int new_dimensionality;
+Rcpp::as<arma::mat> input;
+string decomposition_method = 'exact';
+const int new_dimensionality = 0;
 bool copy_all_inputs;
 bool scale;
 double var_to_retain;
 bool verbose;
 
+
 // [[Rcpp::exports]]
-Rcpp::List PCA(input,  decomposition_method = 'exact', new_dimensionality = 0, copy_all_inputs = false,  scale = false, var_to_retain = 0, verbose = false) {
+Rcpp::List PCA(input,  decomposition_method, new_dimensionality, copy_all_inputs = false,  scale = false, var_to_retain = 0, verbose = false);
+{
 // don't forget to declare argument types in line above
 ResetTimers();
 EnableTimers();
