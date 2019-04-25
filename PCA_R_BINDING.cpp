@@ -1,9 +1,10 @@
 
 // imports or headers needed 
-#include <Rcpp.h>//  Rcpp
-using namespace Rcpp;
+
 
 #include <mlpack/methods/pca/pca.hpp> // particular algorithm used here.
+
+#include <RcppArmadillo.h>
 
 //' Run A Principal Components Analysis (with optional dimensionality reduction)
 //'
@@ -19,8 +20,15 @@ using namespace Rcpp;
 //'@param var to retain a double Amount of variance to retain falling between 0 and 1 defaults to 0
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
+string decomposition_method;
+const int new_dimensionality;
+bool copy_all_inputs;
+bool scale;
+double var_to_retain;
+bool verbose;
+
 // [[Rcpp::exports]]
-Rcpp::List PCA(input, string decomposition_method = 'exact', const int new_dimensionality = 0, bool copy_all_input = false, bool scale = false, var_to_retain = none, verbose = false){
+Rcpp::List PCA(input,  decomposition_method = 'exact', new_dimensionality = 0, copy_all_inputs = false,  scale = false, var_to_retain = 0, verbose = false) {
 // don't forget to declare argument types in line above
 ResetTimers();
 EnableTimers();
@@ -32,7 +40,7 @@ CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs);
 
 // alternatively Rccp::as < arma::mat >(Rmat); or other R object name
 input_tuple = to_matrix(inputs, dtype=double, copy=CLI.HasParam('copy_all_inputs'));
-input_mat = //arma(input_tuple[0],input_tuple[1]);
+input_mat = arma(input_tuple[0],input_tuple[1]);
   SetParam[arma.Mat[double]](<const string> 'input', dereference(input_mat));
   CLI.SetPassed(<const string>'input');
 del input_mat;
