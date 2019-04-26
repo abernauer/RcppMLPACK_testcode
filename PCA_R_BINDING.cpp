@@ -1,4 +1,5 @@
 
+
 // imports or headers needed 
 
 #include <RcppCommon.h>
@@ -40,6 +41,19 @@ using namespace Rccp{
 		  const string RTYPE = Rcpp::traits::r_sexp_traits<T>::rtype ;
 		  return Rcpp::Vector< RTYPE >(obj.begin(), obj.end());
 		};
+		//implementation of as()
+		template <typename T> class exporter< mlpack::util::CLI::GetParam<T> >{
+		  typedef typename mlpack::util::CLI::GetParam<T> OUT;
+		  //convert to R type  
+		  const static string RTYPE = Rcpp::traits::r_sexp_traits<T> rtype;
+		  Rcpp::Vector<RTYPE> vec;
+
+		public:
+		  Exporter(SEXP x) vec(x){
+		    if ( TYPEOF(x) != RTYPE )
+		      throw std::invalidargument("This is not a valid R type");
+		  }
+		}
 		
 	}
 }
