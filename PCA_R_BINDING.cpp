@@ -1,11 +1,13 @@
 
 // imports or headers needed 
 
+#include <RcppCommon.h>
 
 #include <mlpack/methods/pca/pca.hpp> // particular algorithm used here.
+#include <mlpack/core/util/cli.hpp>
 
 #include <RcppArmadillo.h>
-#include <Rcpp.h>
+
 //' Run A Principal Components Analysis (with optional dimensionality reduction)
 //'
 //' This function performs Principal Components Analysis on a data matrix optionally with dimensionality reduction.
@@ -20,11 +22,15 @@
 //'@param var to retain a double Amount of variance to retain falling between 0 and 1 defaults to 0
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
-using namespace Rcpp;
-using namespace mlpack;
+using namespace Rcpp{
+        //use forward declaration as needed to expose CLI object to R
+	using namespace traits{
+		template <typename T> SEXP wrap(const mlpack::CLI:: 
+
+	}
 
 
-
+}
 // [[Rcpp::export]]
 List PCA(List input_parameters) { 
 // don't forget to declare argument types in line above
