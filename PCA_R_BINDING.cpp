@@ -21,23 +21,27 @@
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
 using namespace Rcpp;
+using namespace mlpack;
 
 
 
 // [[Rcpp::export]]
 List PCA(List input_parameters) { 
 // don't forget to declare argument types in line above
-   
-ResetTimers()
-EnableTimers()
-DisableBacktrace()
-DisableVerbose()
+//int main
+  
+ static void ResetTimers()
+ static void EnableTimers()
+ static void DisableBacktrace()
+ static void DisableVerbose()
 CLI.RestoreSettings("Principal Components Analysis")
   // doesn't return template deduction error like other implementations
- bool copy_all_inputs = is_true( any(input_parameters["CopyTheInputs"]) ) ;
+   LogicalVector CopyRef = input_parameters[5];
+   bool copy_all_inputs = is_true( any(CopyRef) ) ;
 if (copy_all_inputs == true)
 {
-CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs);
+  const std::string copyPuts = CLI::GetParam<std::string>('copy_all_inputs');  
+  // CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs);
 
 // alternatively Rccp::as < arma::mat >(Rmat); or other R object name
 input_tuple = to_matrix(inputs, dtype=double, copy=CLI.HasParam('copy_all_inputs'));
@@ -93,7 +97,7 @@ EnableVerbose();
 //Mark all out options as passed
 CLI<string>.SetPassed(<const string>'verbose');
 
-mlpackMain()
+ mlpackMain();
 
 
 
