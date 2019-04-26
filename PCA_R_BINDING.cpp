@@ -25,12 +25,15 @@
 using namespace Rcpp{
         //use forward declaration as needed to expose CLI object to R
 	using namespace traits{
-		template <typename T> SEXP wrap(const mlpack::CLI:: 
-
+                //suport for wrap
+		template <typename T> SEXP wrap(const mlpack::util::CLI::GetParam<T> & obj); 
+                template <typename T> class exporter< mlpack::util::CLI::GetParam<T> >;
 	}
 
 
 }
+#include <Rcpp.h>
+
 // [[Rcpp::export]]
 List PCA(List input_parameters) { 
 // don't forget to declare argument types in line above
