@@ -33,7 +33,16 @@ using namespace Rcpp{
 
 }
 #include <Rcpp.h>
-
+using namespace Rccp{
+	using namespace traits{
+                //implementation 
+		template <typename T> SEXP wrap(const mlpack::util::CLI::GetParam<T> & obj){
+		  const string RTYPE = Rcpp::traits::r_sexp_traits<T>::rtype ;
+		  return Rcpp::Vector< RTYPE >(obj.begin(), obj.end());
+		};
+		
+	}
+}
 // [[Rcpp::export]]
 List PCA(List input_parameters) { 
 // don't forget to declare argument types in line above
