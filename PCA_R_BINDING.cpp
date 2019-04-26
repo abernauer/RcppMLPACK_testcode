@@ -49,9 +49,16 @@ using namespace Rccp{
 		  Rcpp::Vector<RTYPE> vec;
 
 		public:
-		  Exporter(SEXP x) vec(x){
+		  exporter(SEXP x) vec(x){
 		    if ( TYPEOF(x) != RTYPE )
 		      throw std::invalidargument("This is not a valid R type");
+		  }
+		  OUT get(){
+
+		    OUT x(vec.size());
+		    std::copy(vec.begin(), vec.end(), x.begin());
+		    return x;
+		    
 		  }
 		}
 		
