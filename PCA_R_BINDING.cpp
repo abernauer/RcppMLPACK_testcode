@@ -5,7 +5,7 @@
 #include <mlpack/methods/pca/pca.hpp> // particular algorithm used here.
 
 #include <RcppArmadillo.h>
-
+#include <Rcpp.h>
 //' Run A Principal Components Analysis (with optional dimensionality reduction)
 //'
 //' This function performs Principal Components Analysis on a data matrix optionally with dimensionality reduction.
@@ -23,25 +23,9 @@
 using namespace Rcpp;
 
 
-SEXP Y;
-NumericMatrix data(Y);
-template<>as<arma::mat>(data);
 
-std::string method = "exact";
-std::vector<double> dimensionality;
-bool copys = false;
-bool s = false;
-std::vector<double> var_r;
-bool verbos = false; 
-List PCA;
 // [[Rcpp::export]]
-List PCA = List::create(_["input"] = data, 
-		     _["decomposition_method"] =  method, 
-		     _["new_dimensionality"] =  dimensionality, 
-		     _["copy_all_inputs"] =  copys, 
-		     _["scale"] =  s, 
-		     _["var_to_retain"] =  var_r,
-		     _["verbose"] =  verbos);{ 
+List PCA(List input_parameters) { 
 // don't forget to declare argument types in line above
    
 ResetTimers()
@@ -49,6 +33,8 @@ EnableTimers()
 DisableBacktrace()
 DisableVerbose()
 CLI.RestoreSettings("Principal Components Analysis")
+  // doesn't return template deduction error like other implementations
+ bool copy_all_inputs = is_true( any(input_parameters["CopyTheInputs"]) ) ;
 if (copy_all_inputs == true)
 {
 CLI.SetParam[bool](<const string> 'copy_all_inputs', copy_all_inputs);
@@ -62,13 +48,15 @@ del input_mat;
 }
 
 // detect if the parameter was passed; set if so.
-if (decomposition_method != none)
+ string decomposition_method = input_parameters["DecompositionMethod"];
+if (decomposition_method != "exact")
 {
 SetParam[string](<const string>'decomposition_method', decomposition_method.encode("UTF-8"));
 CLI.SetPassed(<const string>'decomposition_method');
 }
 
 // detect if the parameter was passed; set if so.
+ double new_dimensionality = input_parameters["NewDimensionality"];
 if (new_dimensionality != 0)
 {
 SetParam[int](<const string>'new_dimensionality', new_dimensionality);
@@ -76,6 +64,8 @@ CLI.SetPassed(<const string>'new_dimensionality');
 }
 
 //detect if the parameter was passed; set if so.
+ LogicalVector scaleT = input_parameters[3];
+ bool scale = is_true( any(scaleT) ) ;
 if (scale != false)
 {
 SetParam[bool](<const string>'scale', scale);
@@ -83,13 +73,17 @@ CLI.SetPassed(<const string> 'scale');
 }
 
 //detect if the parameter was passed; set if so.
-if (var_to_retain != none) {
-SetParam[int](<const string>'var_to_retaint', var_to_retain);
+ int var_to_retain = input_parameters["varToRetain"];
+if (var_to_retain > 0)
+{
+SetParam[int](<const string>'var_to_retain', var_to_retain);
 CLI.SetPassed(<const string> 'var_to_retain');
 }
 
 //detect if the parameter was passed; set if so.
-if (verbose != false)
+ LogicalVector verbT = input_parameters[6];
+ bool verbose = is_true( any(verbT) ) ;
+ if (verbose != false)
 {
 SetParam[bool](<const string>'verbose', verbose);
 CLI.SetPassed(<const string>'verbose');
@@ -110,9 +104,9 @@ CLI.ClearSettings()
 //extensible to third party types
 //included Rccp::as() might be over kill here.
  
-return result = List::create(Named('output') = Rcpp::as<arma::mat&>(CLI.GetParam[arma.Mat[double]], 'output'));
+  return result = Rcpp::wrap(List::create(Named('output') = as<NumericMatrix>(CLI.GetParam[arma.Mat[double]], 'output')));
 }
- ***R
- Y = matrix(1:16, 4, 4)
-  PCA()
- ***
+/***R
+ input_paramaters <- list(data = matrix(1:16, 4, 4), decompositionMethod = "exact", newDimensionality = c(0), Scale = c(FALSE), varToRetain = c(0), copyTheInputs = c(FALSE), verboseOut = c(FALSE))
+ PCA()
+ ***/
