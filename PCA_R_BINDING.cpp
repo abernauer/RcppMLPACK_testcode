@@ -28,7 +28,7 @@ namespace Rcpp{
 	 namespace traits{
                 //suport for wrap
 	   template <typename T> SEXP wrap(const class Rcpp::traits::CLI::GetParam)<T> & obj); 
-                template <typename T> class Exporter< mlpack::util::CLI::GetParam<T> >;
+  template <typename T> class Exporter< class Rcpp::traits:CLI::GetParam<T> >;
 	 }
 
 
@@ -37,15 +37,15 @@ namespace Rcpp{
 namespace Rccp{
 	 namespace traits{
                 //implementation 
-		template <typename T> SEXP wrap(const mlpack::util::CLI::GetParam<T> & obj){
+	   template <typename T> SEXP wrap(const class Rcpp::traits::CLI::GetParam<T> & obj){
 		  const static int RTYPE = Rcpp::traits::r_sexp_traits<T>::rtype ;
 		  return Rcpp::Vector< RTYPE >(obj.begin(), obj.end());
 		};
 		//implementation of as()
-		template <typename T> class exporter< mlpack::util::CLI::GetParam<T> >{
+	   template <typename T> class exporter< Rcpp::traits::CLI::GetParam<T> >{
 		  typedef typename mlpack::util::CLI::GetParam<T> OUT;
 		  //convert to R type  
-		  const static int RTYPE = Rcpp::traits::r_sexp_traits<T> rtype;
+		  const static int RTYPE = Rcpp::traits::r_type_traits<T>::rtype ;
 		  Rcpp::Vector<RTYPE> vec;
 
 		public:
@@ -60,7 +60,7 @@ namespace Rccp{
 		    return x;
 		    
 		  }
-		}
+	   };
 		
 	}
 }
@@ -147,7 +147,7 @@ CLI.ClearSettings()
 //extensible to third party types
 //included Rccp::as() might be over kill here.
  
-  return result = Rcpp::wrap(List::create(Named('output') = as<NumericMatrix>(CLI.GetParam[arma.Mat[double]], 'output')));
+  return result = Rcpp::wrap(SEXP List::create(Named('output') = as<NumericMatrix>(CLI.GetParam[arma.Mat[double]], 'output')));
 }
 /***R
  input_paramaters <- list(data = matrix(1:16, 4, 4), decompositionMethod = "exact", newDimensionality = c(0), Scale = c(FALSE), varToRetain = c(0), copyTheInputs = c(FALSE), verboseOut = c(FALSE))
