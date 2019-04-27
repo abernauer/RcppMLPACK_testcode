@@ -23,35 +23,35 @@
 //'@param var to retain a double Amount of variance to retain falling between 0 and 1 defaults to 0
 //'@return A matrix with PCA performed on it
 // [[Rcpp::depends(RcppArmadillo)]]
-using namespace Rcpp{
+namespace Rcpp{
         //use forward declaration as needed to expose CLI object to R
-	using namespace traits{
+	 namespace traits{
                 //suport for wrap
-		template <typename T> SEXP wrap(const mlpack::util::CLI::GetParam<T> & obj); 
-                template <typename T> class exporter< mlpack::util::CLI::GetParam<T> >;
-	}
+	   template <typename T> SEXP wrap(const class Rcpp::traits::CLI::GetParam)<T> & obj); 
+                template <typename T> class Exporter< mlpack::util::CLI::GetParam<T> >;
+	 }
 
 
 }
 #include <Rcpp.h>
-using namespace Rccp{
-	using namespace traits{
+namespace Rccp{
+	 namespace traits{
                 //implementation 
 		template <typename T> SEXP wrap(const mlpack::util::CLI::GetParam<T> & obj){
-		  const string RTYPE = Rcpp::traits::r_sexp_traits<T>::rtype ;
+		  const static int RTYPE = Rcpp::traits::r_sexp_traits<T>::rtype ;
 		  return Rcpp::Vector< RTYPE >(obj.begin(), obj.end());
 		};
 		//implementation of as()
 		template <typename T> class exporter< mlpack::util::CLI::GetParam<T> >{
 		  typedef typename mlpack::util::CLI::GetParam<T> OUT;
 		  //convert to R type  
-		  const static string RTYPE = Rcpp::traits::r_sexp_traits<T> rtype;
+		  const static int RTYPE = Rcpp::traits::r_sexp_traits<T> rtype;
 		  Rcpp::Vector<RTYPE> vec;
 
 		public:
-		  exporter(SEXP x) vec(x){
+		  exporter(SEXP x) : vec(x) {
 		    if ( TYPEOF(x) != RTYPE )
-		      throw std::invalidargument("This is not a valid R type");
+		      throw std::invalid_argument("This is not a valid R type");
 		  }
 		  OUT get(){
 
