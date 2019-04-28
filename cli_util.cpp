@@ -30,7 +30,8 @@ extern "C" {
   extern bool mlpackHasParam(const char *identifier);
 
   extern char *mlpackGetParamString(const char *identifier);
-
+  extern void mlpackSetParamPtr(const char *identifier, const double *ptr,
+				const bool copy);
   extern double mlpackGetParamDouble(const char *identifier);
 
   extern int mlpackGetParamInt(const char *identifier);
@@ -107,7 +108,7 @@ void mlpackSetParamString(const char *identifier, const char *value)
   */
 void mlpackSetParamPtr(const char *identifier, const double *ptr, const bool copy)
 {
-      mlpack::bindings::cli::SetParamPtr(identifier, ptr, value);
+  mlpack::bindings::cli::SetParam(identifier, ptr, copy);
 }
 
     /**
@@ -186,7 +187,7 @@ bool mlpackGetParamBool(const char *identifier)
   */
  int mlpackVecStringSize(const char *identifier)
  {
-      std::vector<std::string> output = static T& mlpack::CLI::GetParam(const string&);
+      std::vector<std::string> output =  mlpack::CLI::GetParam(identifier);
       return output.size();
  }
 
