@@ -4,20 +4,62 @@
  *Utility functions for R to set and get parameters to and from the CLI.
  *
  */
-#include "cli_util.h"
-#include "cli_util.hpp"
+#include <mlpack/prereqs.hpp>
 #include <mlpack/core/util/cli.hpp>
+#include <R.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+
+#if defined(__cplusplus) || defined(c_plusplus)
+extern "C" {
+#endif
+
+  extern void mlpackSetParamDoubl(const char *identifier, double value);
+
+  extern void mlpackSetParamInt(const char *identifier, int value);
+
+  extern void mlpackSetParamFloat(const char *identifier, float value);
+
+  extern void mlpackSetParamBool(const char *identifier, bool value);
+
+  extern bool mlpackHasParam(const char *identifier);
+
+  extern char *mlpackGetParamString(const char *identifier);
+
+  extern double mlpackGetParamDouble(const char *identifier);
+
+  extern int mlpackGetParamInt(const char *identifier);
+
+  extern void *mlpackGetVecIntPtr(const char *identifier);
+
+  extern int mlpackVecStringSize(const char *identifier);
+
+  extern void mlpackSetPassed(const char *name);
+
+  extern void mlpackResetTimers();
+
+  extern void mlpackDisableBacktrace();
+
+  extern void mlpackClearSettings();
+
+  extern void mlpackRestoreSettings(const char *name);
+#if defined(__cplusplus) || defined(c_plusplus)
+}
+#endif
+
+
 
 namespace mlpack {
 
   extern "C" {
-
+  
     /**
      * Set the double parameter to the given value.
      */
     void mlpackSetParamDouble(const char *identifier, double value)
     {
-      util::SetParam(identifier, value);
+      CLI::GetParam<double>(
     }
 
  /**
@@ -25,7 +67,7 @@ namespace mlpack {
   */
 void mlpackSetParamInt(const char *identifier, int value)
 {
-  util::SetParam(identifier, value);
+  mlpack::util::SetParamInt(identifier, value);
 }
 
  /**
@@ -33,7 +75,7 @@ void mlpackSetParamInt(const char *identifier, int value)
   */
     void mlpackSetParamFloat(const char *identifier, float value)
     {
-      util::SetParam(identifier, value);
+      mlpack::util::SetParamFloat(identifier, value);
     }
 
  /**
@@ -41,7 +83,7 @@ void mlpackSetParamInt(const char *identifier, int value)
   */
     void mlpackSetParamBool(const char *identifier, bool value)
     {
-      util::SetParam(identifier, value);
+      mlpack::util::SetParamBool(identifier, value);
     }
 
  /**
@@ -112,35 +154,35 @@ void mlpackSetParamInt(const char *identifier, int value)
     void *mlpackGetVecIntPtr(const char *identifier)
     {
       // std::vector<int>  vec = CLI::GetParam<std::vector<int>>(identifier);
-      // return vec.get_allocator();
+       // return vec.get_allocator();
     }
 
     /**
   * Get the vector<string> parameter associated with specified identifier.
   */
-    void *mlpackGetVecStringPtr(const char *identifier)
-    {
+ void *mlpackGetVecStringPtr(const char *identifier)
+ {
       // std::vector<std::string> vec = CLI::GetParam<std::vector<std::string>>(identifier);
       // return vec.get_allocator();
-    }
+ }
 
     /**
   * Get the vector<int> parameter's size.
   */
-    int mlpackVecIntSize(const char *identifier)
-    {
-      std::vector<int> ouput = CLI::GetParam<std::vector<int>>(identifier);
+ int mlpackVecIntSize(const char *identifier)
+ {
+      std::vector<int> output = CLI::GetParam<std::vector<int>>(identifier);
       return output.size();
-    }
+ }
 
     /**
   * Get the vector<string> parameter's size.
   */
-    int mlpackVecStringSize(const char *identifier)
-    {
-      std::vector<std::string> output = CLI::GetParam<std::vector<std::string>(identifier);
+ int mlpackVecStringSize(const char *identifier)
+ {
+      std::vector<std::string> output = static T& mlpack::CLI::GetParam(const string&);
       return output.size();
-    }
+ }
 
     /**
     * Set paramater as passed. 
@@ -195,7 +237,7 @@ void mlpackSetParamInt(const char *identifier, int value)
     */
     void mlpackClearSettings()
     {
-      CLI::ClearSetting();
+      CLI::ClearSettings();
     }
 
     /**
