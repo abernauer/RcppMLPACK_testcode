@@ -259,6 +259,30 @@ void mlpackRestoreSettings(const char *name)
 
 } // namespace mlpack
 
-void mlpackMain(){
+// Document program.
+PROGRAM_INFO("Principal Components Analysis",
+	     // Short description.
+	     "An implementation of several strategies for principal components analysis "
+	     "(PCA), a commmon prepcocessing step. Given a dataset and a desired new"
+	     "dimensionality, this can reduce the dimensionality of the data using the "
+	     "linear transformation determined by PCA.");
+
+// Parameters for the program.
+PARAM_MATRIX_IN_REQ("input", "Input dataset to perform PCA on.", "i");
+PARAM_MATRIX_OUT("output", "Matrix to save modified dataset to", "o");
+PARAM_INT_IN("new_dimensionality","Desired dimensionality of output dataset.", "d", 0);
+
+using namespace mlpack;
+
+static void mlpackMain()
+{
+  //load input data set
+  arma::mat& dataset = CLI::GetParam<arma::mat>("input");
+
+  size_t newDimension = CLI::GetParam<int>("new_dimensionality");
+
+  // Now save the results
+  if (CLI::HasParam("output"))
+    CLI::GetParam<arma::mat>("output") = std::move(dataset);
 }
   
