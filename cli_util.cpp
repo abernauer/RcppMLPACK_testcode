@@ -1,20 +1,3 @@
-/**
- * @file cli_util.cpp
- *
- *Utility functions for R to set and get parameters to and from the CLI.
- *
- */
-#include <mlpack/prereqs.hpp>
-#include <mlpack/core/util/cli.hpp>
-#define BINDING_TYPE BINDING_TYPE_R
-#include <mlpack/core/util/mlpack_main.hpp>
-#include <R.h>
-#include <stdint.h>
-#include <stddef.h>
-#include <stdbool.h>
-
- 
-
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
@@ -49,13 +32,33 @@ extern "C" {
   extern void mlpackClearSettings();
 
   extern void mlpackRestoreSettings(const char *name);
-#if defined(__cplusplus) || defined(c_plusplus)
-}
+#if defined(__cplusplus) || defined(c_plusplus) 
+} // matches
 #endif
 
 
+/**
+ * @file cli_util.cpp
+ *
+ *Utility functions for R to set and get parameters to and from the CLI.
+ *
+ */
+#include <mlpack/prereqs.hpp>
+#include <mlpack/core/util/cli.hpp>
+#define BINDING_TYPE BINDING_TYPE_R
+#include <mlpack/core/util/mlpack_main.hpp>
+#include <R.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+// [[Rcpp::plugins(openmp)]]
+ 
 
-namespace mlpack {
+
+
+
+namespace mlpack{
+
 
   extern "C" {
   
@@ -66,7 +69,10 @@ namespace mlpack {
 
 void mlpackSetParamDouble(const char *identifier, double value)
 {
-      mlpack::bindings::cli::SetParam(identifier, value);
+  
+    
+     
+  void  mlpack::bindings::cli::SetParam(&identifier, value);
 }
 
  /**
@@ -74,7 +80,7 @@ void mlpackSetParamDouble(const char *identifier, double value)
   */
 void mlpackSetParamInt(const char *identifier, int value)
 {
-   mlpack::bindings::cli::SetParam(identifier, value);
+  void  mlpack::bindings::cli::SetParam(identifier ,  value);
 }
 
  /**
@@ -82,7 +88,7 @@ void mlpackSetParamInt(const char *identifier, int value)
   */
 void mlpackSetParamFloat(const char *identifier, float value)
 {
-       mlpack::bindings::cli::SetParam(identifier, value);
+void  mlpack::bindings::cli::SetParam(identifier, value, void* / input / );
 }
 
  /**
@@ -90,7 +96,7 @@ void mlpackSetParamFloat(const char *identifier, float value)
   */
 void mlpackSetParamBool(const char *identifier, bool value)
 {
-       mlpack::bindings::cli::SetParam(identifier, value);
+     void  mlpack::bindings::cli::SetParam(identifier , value);
 }
 
  /**
@@ -100,7 +106,7 @@ void mlpackSetParamString(const char *identifier, const char *value)
  {
       std::string val;
       val.assign(value);
-      mlpack::bindings::cli::SetParam(identifier, value);
+    void  mlpack::bindings::cli::SetParam(identifier, value);
  }
 
     /**
@@ -108,7 +114,7 @@ void mlpackSetParamString(const char *identifier, const char *value)
   */
 void mlpackSetParamPtr(const char *identifier, const double *ptr, const bool copy)
 {
-  mlpack::bindings::cli::SetParam(identifier, ptr, copy);
+ void mlpack::bindings::cli::SetParam(identifier , ptr , copy);
 }
 
     /**
@@ -133,7 +139,7 @@ char *mlpackGetParamString(const char *identifier)
   */
 double mlpackGetParamDouble(const char *identifier)
 {
-      double val = CLI::GetParam<double>(identifier);
+      double val =  CLI::GetParam<double>(identifier);
       return val;
 }
 
@@ -158,17 +164,17 @@ bool mlpackGetParamBool(const char *identifier)
     /**
   * Get the vector<int> parameter associated with specified identifier.
   */
-    void *mlpackGetVecIntPtr(const char *identifier)
-    {
+void *mlpackGetVecIntPtr(const char *identifier)
+{
       // std::vector<int>  vec = CLI::GetParam<std::vector<int>>(identifier);
        // return vec.get_allocator();
-    }
+}
 
     /**
   * Get the vector<string> parameter associated with specified identifier.
   */
  void *mlpackGetVecStringPtr(const char *identifier)
- {
+{
       // std::vector<std::string> vec = CLI::GetParam<std::vector<std::string>>(identifier);
       // return vec.get_allocator();
  }
@@ -187,7 +193,7 @@ bool mlpackGetParamBool(const char *identifier)
   */
  int mlpackVecStringSize(const char *identifier)
  {
-      std::vector<std::string> output =  mlpack::CLI::GetParam(identifier);
+   std::vector<std::string> output =  CLI::GetParam<std::vector<std::string>>(identifier);
       return output.size();
  }
 
@@ -229,7 +235,7 @@ void mlpackEnableTimers()
 void mlpackEnableVerbose()
 {
       Log::Info.ignoreInput = false;
-    }
+}
 
     /**
     * Turn verbose output off.
@@ -258,7 +264,7 @@ void mlpackRestoreSettings(const char *name)
   } // extern C
 
 } // namespace mlpack
-
+  
 // Document program.
 PROGRAM_INFO("Principal Components Analysis",
 	     // Short description.
