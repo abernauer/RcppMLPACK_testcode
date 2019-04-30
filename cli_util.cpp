@@ -69,10 +69,12 @@ namespace mlpack{
 
 void mlpackSetParamDouble(const char *identifier, double value)
 {
+  vector<char> identifier;
+  vector<char>& id = identifier;
   
     
      
-  void  mlpack::bindings::cli::SetParam(&identifier, value);
+  void  mlpack::bindings::cli::SetParam(identifier, value);
 }
 
  /**
@@ -96,7 +98,10 @@ void  mlpack::bindings::cli::SetParam(identifier, value, void* / input / );
   */
 void mlpackSetParamBool(const char *identifier, bool value)
 {
-     void  mlpack::bindings::cli::SetParam(identifier , value);
+  std::vector<bool> val;
+  val.assign(initiliazer);
+  
+  void  mlpack::bindings::cli::SetParam(identifier , value);
 }
 
  /**
@@ -264,14 +269,39 @@ void mlpackRestoreSettings(const char *name)
   } // extern C
 
 } // namespace mlpack
-  
+using namespace mlpack;
+using namespace mlpack::pca;
+using namespace mlpack::util;
+using namespace std;
+
 // Document program.
 PROGRAM_INFO("Principal Components Analysis",
 	     // Short description.
 	     "An implementation of several strategies for principal components analysis "
 	     "(PCA), a commmon prepcocessing step. Given a dataset and a desired new"
 	     "dimensionality, this can reduce the dimensionality of the data using the "
-	     "linear transformation determined by PCA.");
+	     "linear transformation determined by PCA.",
+	     // long description
+             "This program performs principal components analysis on the given data set storing, "
+	     "storing the transformed matrix with it's principal components"
+	     "\n\n"
+	     "The input dataset should be specificied with " +
+             PRINT_PARAM_STRING("input") + ", paramater and the desired dimensionality used, for"
+	     "dimensionality reduction can be specified with " + PRINT_PARAM_STRING("new_dimensionality") + " "
+	     "paramater."
+	     "\n\n"
+	     "The output of the transformed matrix may be saved with the " +
+	     PRINT_PARAM_STRING("output") + "ouput paramater."
+	     "\n\n"
+
+
+	     PRINT_CALL("pca", "input_file", "data",
+                        "new_dimensionality", 5,
+			"output", "data_mod"),
+  SEE_ALSO("Principal component analysis on Wikipedia",
+	   "https://en.wikipedia.org/wiki/Principal_component_analysis"),
+  SEE_ALSO("mlpack::pca::PCA C++ class documentation",
+	   "@doxygen/classmlpack_1_1pca_1_1PCA.html"));
 
 // Parameters for the program.
 PARAM_MATRIX_IN_REQ("input", "Input dataset to perform PCA on.", "i");
