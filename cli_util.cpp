@@ -1,42 +1,3 @@
-#if defined(__cplusplus) || defined(c_plusplus)
-extern "C" {
-#endif
-
-  extern void mlpackSetParamDoubl(const char *identifier, double value);
-
-  extern void mlpackSetParamInt(const char *identifier, int value);
-
-  extern void mlpackSetParamFloat(const char *identifier, float value);
-
-  extern void mlpackSetParamBool(const char *identifier, bool value);
-
-  extern bool mlpackHasParam(const char *identifier);
-
-  extern char *mlpackGetParamString(const char *identifier);
-  extern void mlpackSetParamPtr(const char *identifier, const double *ptr,
-				const bool copy);
-  extern double mlpackGetParamDouble(const char *identifier);
-
-  extern int mlpackGetParamInt(const char *identifier);
-
-  extern void *mlpackGetVecIntPtr(const char *identifier);
-
-  extern int mlpackVecStringSize(const char *identifier);
-
-  extern void mlpackSetPassed(const char *name);
-
-  extern void mlpackResetTimers();
-
-  extern void mlpackDisableBacktrace();
-
-  extern void mlpackClearSettings();
-
-  extern void mlpackRestoreSettings(const char *name);
-#if defined(__cplusplus) || defined(c_plusplus) 
-} // matches
-#endif
-
-
 /**
  * @file cli_util.cpp
  *
@@ -69,12 +30,7 @@ namespace mlpack{
 
 void mlpackSetParamDouble(const char *identifier, double value)
 {
-  vector<char> identifier;
-  vector<char>& id = identifier;
-  
-    
-     
-  void  mlpack::bindings::cli::SetParam(identifier, value);
+  mlpack::bindings::cli::SetParam(identifier, value)  
 }
 
  /**
@@ -82,7 +38,7 @@ void mlpackSetParamDouble(const char *identifier, double value)
   */
 void mlpackSetParamInt(const char *identifier, int value)
 {
-  void  mlpack::bindings::cli::SetParam(identifier ,  value);
+    mlpack::bindings::cli::SetParam(identifier ,  value);
 }
 
  /**
@@ -90,7 +46,7 @@ void mlpackSetParamInt(const char *identifier, int value)
   */
 void mlpackSetParamFloat(const char *identifier, float value)
 {
-void  mlpack::bindings::cli::SetParam(identifier, value, void* / input / );
+  mlpack::bindings::cli::SetParam(identifier, value, void* / input / );
 }
 
  /**
@@ -98,10 +54,9 @@ void  mlpack::bindings::cli::SetParam(identifier, value, void* / input / );
   */
 void mlpackSetParamBool(const char *identifier, bool value)
 {
-  std::vector<bool> val;
-  val.assign(initiliazer);
+ 
   
-  void  mlpack::bindings::cli::SetParam(identifier , value);
+        mlpack::bindings::cli::SetParam(identifier , value);
 }
 
  /**
@@ -119,7 +74,7 @@ void mlpackSetParamString(const char *identifier, const char *value)
   */
 void mlpackSetParamPtr(const char *identifier, const double *ptr, const bool copy)
 {
- void mlpack::bindings::cli::SetParam(identifier , ptr , copy);
+      mlpack::bindings::cli::SetParam(identifier , ptr , copy);
 }
 
     /**
@@ -196,7 +151,7 @@ void *mlpackGetVecIntPtr(const char *identifier)
     /**
   * Get the vector<string> parameter's size.
   */
- int mlpackVecStringSize(const char *identifier)
+int mlpackVecStringSize(const char *identifier)
  {
    std::vector<std::string> output =  CLI::GetParam<std::vector<std::string>>(identifier);
       return output.size();

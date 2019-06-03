@@ -13,51 +13,55 @@
 #include <stdbool.h>
 
 #if defined(__cplusplus) || defined(c_plusplus)
-extern "C"{
+extern "C"{            //disables name mangling by the compiler
+                       //for the following functions
 #endif
 
   /**
    * Set the double parameter to the given value
    */
-  extern void mlpackSetParamDouble(const char *identifier, double value);
 
-  extern void mlpackSetParamInt(const char *identifier, int value);
+  void mlpackSetParamDouble(const char *identifier, double value);
 
-  extern void mlpackSetParamFloat(const char *identifier, float value);
+  void mlpackSetParamInt(const char *identifier, int value);
 
-  extern void mlpackSetParamBool(const char *identifier, bool value);
+  void mlpackSetParamFloat(const char *identifier, float value);
 
-  extern void mlpackSetParamString(const char *identifier, const char *value);
+  void mlpackSetParamBool(const char *identifier, bool value);
 
-  extern void mlpackSetParamPtr(const char *identifier, const double *ptr, const bool copy);
+  void mlpackSetParamString(const char *identifier, const char *value);
 
-  extern bool mlpackHasParam(const char *identifier);
+  void mlpackSetParamPtr(const char *identifier, const double *ptr, const bool copy);
 
-  extern char *mlpackGetParamString(const char *identifier);
+  bool mlpackHasParam(const char *identifier);
 
-  extern double mlpackGetParamDouble(const char *identifier);
+  char *mlpackGetParamString(const char *identifier);
 
-  extern int mlpackGetParamInt(const char *identifier);
+  double mlpackGetParamDouble(const char *identifier);
 
-  extern void *mlpackGetVecIntPtr(const char *identifier);
+  int mlpackGetParamInt(const char *identifier);
 
-  extern void *mlpackGetVecStringPtr(const char *identifier);
+  void *mlpackGetVecIntPtr(const char *identifier);
 
-  extern int mlpackVecIntSize(const char *identifier);
+  void *mlpackGetVecStringPtr(const char *identifier);
 
-  extern int mlpackVecStringSize(const char *identifier);
+  int mlpackVecIntSize(const char *identifier);
 
-  extern void mlpackSetPassed(const char *name);
+  int mlpackVecStringSize(const char *identifier);
 
-  extern void mlpackResetTimers();
+  void mlpackSetPassed(const char *name);
 
-  extern void mlpackEnableTimers();
+  void mlpackResetTimers();
 
-  extern void mlpackDisableBacktrace();
+  void mlpackEnableTimers();
 
-  extern void mlpackClearSettings();
+  void mlpackDisableBacktrace();
 
-  extern void mlpackRestoreSettings(const char *name);
+  void mlpackClearSettings();
+
+  void mlpackRestoreSettings(const char *name);
+
+  
 #if defined(__cplusplus) || defined(c_plusplus)
 }
 #endif
